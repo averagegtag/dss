@@ -1,10 +1,18 @@
 -- Doors OP v2 | LinoriaLib
 -- Merged base + Abysall features + extras
 
-local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
-local Library     = loadstring(game:HttpGet(repo .. 'Library.lua'))()
-local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
-local SaveManager  = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
+local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/refs/heads/main/'
+
+local function Load(url)
+    local src = game:HttpGet(url)
+    local fn, err = loadstring(src)
+    if not fn then error('loadstring failed for ' .. url .. ': ' .. tostring(err), 2) end
+    return fn()
+end
+
+local Library      = Load(repo .. 'Library.lua')
+local ThemeManager = Load(repo .. 'addons/ThemeManager.lua')
+local SaveManager  = Load(repo .. 'addons/SaveManager.lua')
 
 -- ─── Services ────────────────────────────────────────────────────────────────
 local Players          = game:GetService('Players')
@@ -377,7 +385,7 @@ task.spawn(HookFakeRemotes)
 --  WINDOW + TABS
 -- ═════════════════════════════════════════════════════════════════════════════
 local Window = Library:CreateWindow({
-    Title       = 'avDoors',
+    Title       = 'Doors OP v2',
     Center      = true,
     AutoShow    = true,
     TabPadding  = 8,
@@ -1817,6 +1825,6 @@ SaveManager:BuildConfigSection(Tabs.Settings)
 ThemeManager:ApplyToTab(Tabs.Settings)
 SaveManager:LoadAutoloadConfig()
 
-Library:SetWatermark('avDoors | ' .. Floor)
+Library:SetWatermark('Doors OP v2 | ' .. Floor)
 Library:SetWatermarkVisibility(true)
 Library.KeybindFrame.Visible = true
